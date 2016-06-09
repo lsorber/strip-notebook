@@ -1,3 +1,3 @@
 [filter "stripnotebook"]
-	clean = "python -c \"import json, sys; n = json.loads(sys.stdin.read()); n['cells'] = [(c.pop('outputs', None) and c.setdefault('outputs', [])) or (c.pop('execution_count', None) and c.setdefault('execution_count', None)) or c for c in n['cells']]; json.dump(n, sys.stdout, sort_keys=True, indent=4)\""
+	clean = "python -c \"import json, sys; n = json.loads(sys.stdin.read()); n['cells'] = [(c.pop('outputs', None) is not None and c.setdefault('outputs', [])) or (c.pop('execution_count', -1) != -1 and c.setdefault('execution_count', None)) or c for c in n['cells']]; json.dump(n, sys.stdout, sort_keys=True, indent=1); sys.stdout.write('\\n')\""
 	smudge = cat
